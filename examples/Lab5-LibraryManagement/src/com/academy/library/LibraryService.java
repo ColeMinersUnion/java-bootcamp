@@ -3,18 +3,7 @@ package com.academy.library;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.TreeMap;
-import java.util.TreeSet;
+import java.util.*;
 
 public class LibraryService {
 
@@ -22,7 +11,7 @@ public class LibraryService {
     private final ArrayList<Member> members = new ArrayList<>();
     private final HashSet<String> bookIds = new HashSet<>();
     private final HashSet<String> memberIds = new HashSet<>();
-    private final HashMap<String, String> borrowRecords = new HashMap<>();
+    private final HashMap<String, String> borrowRecords = new HashMap<>(); //key,
     private final TreeSet<String> categories = new TreeSet<>();
     private final TreeMap<String, Integer> categoryBookCount = new TreeMap<>();
     private final ArrayList<BorrowRecord> borrowHistory = new ArrayList<>();
@@ -196,16 +185,73 @@ public class LibraryService {
     }
 
     public void borrowBook() {
-        // TODO: read bookId + memberId; validate book/member exist
-        // TODO: reject if already borrowed; mark unavailable; put borrowRecords
-        // TODO: add BorrowRecord to history; bump borrowFrequency; success message
-        throw new UnsupportedOperationException("TODO");
+        System.out.print("What book are you trying to borrow: ");
+        String bookID = scanner.nextLine().trim();
+
+        System.out.print("\nWhat is your member ID? ");
+        String memberID = scanner.nextLine().trim();
+
+        if (!memberIds.contains(memberID)){
+            System.out.println("You are not registered in the system. Please register before borrowing a book.");
+            return;
+        }
+
+        if(!bookIds.contains(bookID)){
+            System.out.println("The requested book ID does not exist");
+            return;
+        }
+
+        if(borrowRecords.containsKey(bookID)){
+            System.out.println("The requested book ID has already been lent.");
+            return;
+        }
+
+        // Valid Borrow
+        // Unavailable now, create a borrow record, increase borrowFrequency
+        BorrowRecord record = new BorrowRecord(bookID, memberID, LocalDate.now());
+        borrowRecords.put(bookID, memberID);
+        borrowHistory.add(record);
+
+        int freq;
+        if (borrowFrequency.containsKey(bookID)){
+            freq = borrowFrequency.get(bookID);
+            borrowFrequency.put(bookID, freq + 1);
+        } else {
+            borrowFrequency.put(bookID, 1);
+        }
+
+        System.out.printf("You have successfully checked out %s.\n", bookID);
     }
 
     public void returnBook() {
-        // TODO: read bookId; remove from borrowRecords; setAvailable(true)
-        // TODO: set returnDate on latest open BorrowRecord
-        throw new UnsupportedOperationException("TODO");
+
+        System.out.print("What book are you returning? ");
+        String bookID = scanner.nextLine().trim();
+
+        if(!borrowRecords.containsKey(bookID)){
+            System.out.println("This book was not checked out.");
+            return;
+        }
+
+        //remove from borrow records
+        borrowRecords.remove(bookID);
+
+        //update borrow record with return date
+        //find applicable record.
+        //last record with this bookID
+        String iter_bookID;
+        ListIterator<BorrowRecord> borrow_iter = borrowHistory.listIterator(borrowHistory.size());
+        while(borrow_iter.hasPrevious()){
+            BorrowRecord record = borrow_iter.previous();
+            iter_bookID = record.getBookId();
+            if (bookID.equals(iter_bookID)){
+                record.setReturnDate(LocalDate.now());
+                break;
+            }
+        }
+
+        System.out.println("Book returned Successfully");
+
     }
 
     public void displayBorrowedBooks() {
