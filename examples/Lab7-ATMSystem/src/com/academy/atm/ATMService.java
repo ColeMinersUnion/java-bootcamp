@@ -35,22 +35,61 @@ public class ATMService {
     }
 
     public void login() {
-        // TODO: if already logged in, print message and return
-        // TODO: read account number; findAccount; read PIN
-        // TODO: on bad PIN decrement attempts + throw InvalidPinException
-        // TODO: on success set loggedInAccount, reset attempts, log + "Login Successful"
-        // TODO: catch AccountNotFoundException | InvalidPinException; finally printReturnMessage
-        throw new UnsupportedOperationException("TODO");
+        if (loggedInAccount != null) {
+            System.out.println("Already logged in as " + loggedInAccount.getCustomerName() + ".");
+            return;
+        }
+
+        System.out.print("Enter Account Number : ");
+        String accountNumber = scanner.nextLine().trim();
+
+        try {
+            Account account = findAccount(accountNumber);
+            System.out.print("Enter PIN : ");
+            String pin = scanner.nextLine().trim();
+
+            if (!account.getPin().equals(pin)) {
+                pinAttemptsRemaining--;
+                throw new InvalidPinException("Invalid PIN entered.", pinAttemptsRemaining);
+            }
+
+            loggedInAccount = account;
+            pinAttemptsRemaining = MAX_PIN_ATTEMPTS;
+            System.out.println("Login Successful");
+            LoggerUtil.logInfo("Login successful for account " + accountNumber);
+        } catch (AccountNotFoundException | InvalidPinException ex) {
+            System.out.println("ERROR");
+            System.out.println(ex.getMessage());
+            LoggerUtil.logError(ex.getMessage(), ex);
+
+            if (ex instanceof InvalidPinException invalidPin && invalidPin.getAttemptsRemaining() <= 0) {
+                System.out.println("Maximum PIN attempts reached. Login locked for this session.");
+            }
+        } finally {
+            printReturnMessage();
+        }
     }
 
     public void deposit() {
-        // TODO: executeTransaction("Deposit", ...) — requireLogin, readAmount, deposit, record, print
-        throw new UnsupportedOperationException("TODO");
+        executeTransaction("Deposit", () -> {
+            requireLogin();
+            double amount = readAmount("Amount : ");
+            loggedInAccount.deposit(amount);
+            recordTransaction("DEPOSIT", amount, true, "Deposit successful");
+            System.out.println("Deposit Successful");
+            System.out.printf("Current Balance : %.0f%n", loggedInAccount.getBalance());
+        });
     }
 
     public void withdraw() {
-        // TODO: executeTransaction("Withdraw", ...) — requireLogin, readAmount, withdraw, record, print
-        throw new UnsupportedOperationException("TODO");
+        executeTransaction("Withdraw", () -> {
+            requireLogin();
+            double amount = readAmount("Amount : ");
+            loggedInAccount.withdraw(amount);
+            recordTransaction("WITHDRAW", amount, true, "Withdrawal successful");
+            System.out.println("Withdrawal Successful");
+            System.out.printf("Current Balance : %.0f%n", loggedInAccount.getBalance());
+        });
     }
 
     public void displayBalance() {
@@ -61,7 +100,34 @@ public class ATMService {
     }
 
     public void transferFunds() {
-        System.out.println("Bonus / full-path feature — implement after core TODOs.");
+        executeTransaction("Transfer", () -> {
+            requireLogin();
+            System.out.print("Destination Account Number : ");
+            String destinationAccountNumber = scanner.nextLine().trim();
+            Account destinationAccount = findAccount(destinationAccountNumber);
+            double amount = readAmount("Transfer Amount : ");
+
+            String sourceAccountNumber = loggedInAccount.getAccountNumber();
+            double sourceBalanceBefore = loggedInAccount.getBalance();
+            double destinationBalanceBefore = destinationAccount.getBalance();
+
+            try {
+                loggedInAccount.withdraw(amount);
+                destinationAccount.deposit(amount);
+                recordTransaction("TRANSFER_OUT", amount, true,
+                        "Transfer to " + destinationAccountNumber);
+                recordTransaction("TRANSFER_IN", amount, true,
+                        "Transfer from " + sourceAccountNumber);
+                System.out.println("Transfer Successful");
+            } catch (Exception ex) {
+                accounts.get(sourceAccountNumber).restoreBalance(sourceBalanceBefore);
+                accounts.get(destinationAccountNumber).restoreBalance(destinationBalanceBefore);
+                System.out.println("Transfer rolled back due to transaction failure.");
+                LoggerUtil.logInfo("Transfer rollback completed for accounts "
+                        + sourceAccountNumber + " and " + destinationAccountNumber);
+                throw ex; // let executeTransaction log + message
+            }
+        });
     }
 
     public void displayMiniStatement() {
