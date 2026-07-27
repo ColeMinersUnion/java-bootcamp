@@ -2,47 +2,42 @@ package com.academy.bank;
 
 public class CurrentAccount extends Account implements Printable {
 
-    private static final double FEE = 3.99;
+    private double transactionFee;
 
-
-    public CurrentAccount(String accountNumber, double initialBalance, Customer customer){
-        super(AccountNumber, initialBalance, customer);
+    public CurrentAccount(String accountNumber, double balance, Customer customer, double transactionFee) {
+        super(accountNumber, balance, customer);
+        this.transactionFee = transactionFee;
     }
 
-    private double calculateCharges(){
-        return FEE;
+    public double getTransactionFee() {
+        return transactionFee;
     }
 
-    //I'm still using super.setBalance, so there's probably a cleaner implementation out there
+    public void setTransactionFee(double transactionFee) {
+        this.transactionFee = transactionFee;
+    }
+
     @Override
-    public boolean withdraw(double amount){
+    public double calculateCharges() {
+        return transactionFee;
+    }
 
-        if(amount < 0 || amount + calculateCharges() > super.getBalance()){
-            return false;
-        }
-        //I don't like how many functions this adds to the stack
-        super.setBalance(super.getBalance() - (amount + calculateCharges()))
-        return true;
+    @Override
+    public void displayAccount() {
+        System.out.println("Current Account");
+        System.out.println("Account Number : " + getAccountNumber());
+        System.out.println("Customer : " + getCustomer().getName());
+        System.out.printf("Balance : %.0f%n", getBalance());
+        System.out.printf("Transaction Fee : %.0f%n", transactionFee);
+    }
+
+    @Override
+    public void printDetails() {
+        displayAccount();
     }
 
     @Override
     public String getAccountType() {
         return "Current";
     }
-
-    @Override
-    public void displayAccount(){
-        System.out.printf("%s Account Number: %s. %s. Balance %.2f.\n",
-                getAccountType(),
-                super.getAccountNumber(),
-                super.getCustomer().getName(),
-                super.getBalance());
-    }
-
-    @Override
-    public void printDetails(){
-        displayAccount();
-    }
-
-
 }

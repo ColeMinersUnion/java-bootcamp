@@ -1,50 +1,77 @@
 package com.academy.bank;
 
 public abstract class Account {
-    protected double balance;
-    protected final String accountNumber; //cannot be changed
-    protected final Customer customer;    //cannot be changed
 
-    public Account(String accountNumber, double initialBalance, Customer customer) {
+    private String accountNumber;
+    private double balance;
+    private Customer customer;
 
-        this.balance = initialBalance;
+    protected Account(String accountNumber, double balance, Customer customer) {
+        this.accountNumber = accountNumber;
+        this.balance = balance;
         this.customer = customer;
+    }
+
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
     }
 
     public double getBalance() {
         return balance;
     }
-    protected void setBalance(double newBalance) {balance = newBalance};
 
-    public String getAccountNumber(){
-        return accountNumber;
+    protected void setBalance(double balance) {
+        this.balance = balance;
     }
 
     public Customer getCustomer() {
         return customer;
     }
 
-    // TODO: abstract method — no body; every concrete subclass must implement
-    public String getAccountType(){ return "Account"; }
-
-    public boolean deposit(double amount){
-        if(amount < 0){
-            return false;
-        }
-        balance += amount;
-        return true;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
-    public boolean withdraw(double amount){
-        if (amount < 0 || balance - amount < 0){
+    public void deposit(double amount) {
+        if (amount <= 0){
+            System.out.println("Insufficient Deposit");
+            return;
+        }
+        balance += amount;
+        System.out.println("You have successfully deposited.");
+    }
+
+    public boolean withdraw(double amount) {
+        if (amount <= 0){
+            System.out.println("You must withdrawm some positive amount of money.");
             return false;
         }
-        balance -= amount;
+
+        if (amount + calculateCharges() > balance){
+            System.out.println("You cannot over draft your account.");
+            return false;
+        }
+
+        balance -= amount + calculateCharges();
         return true;
+
     }
 
     public abstract void displayAccount();
-    public double calculateInterest(){ return 0.0; }
 
+    public double calculateCharges() {
+        return 0.0;
+    }
+
+    public double calculateInterest() {
+        return 0.0;
+    }
+
+    public String getAccountType() {
+        return "Account";
+    }
 }

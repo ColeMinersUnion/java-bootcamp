@@ -1,6 +1,6 @@
 package com.academy.bank;
 
 public interface Printable {
-    // TODO: declare void printDetails() (public abstract by default in an interface)
-    abstract void printDetails();
+
+    void printDetails();
 }

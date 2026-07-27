@@ -2,40 +2,44 @@ package com.academy.bank;
 
 public class SavingsAccount extends Account implements Printable {
 
-    private final double interestRate;
+    private double interestRate;
 
-    public SavingsAccount(String accountNumber, double initialBalance, Customer customer, double interestRate) {
-        super(accountNumber, initialBalance, customer);
+    public SavingsAccount(String accountNumber, double balance, Customer customer, double interestRate) {
+        super(accountNumber, balance, customer);
         this.interestRate = interestRate;
+    }
+
+    public double getInterestRate() {
+        return interestRate;
+    }
+
+    public void setInterestRate(double interestRate) {
+        this.interestRate = interestRate;
+    }
+
+    @Override
+    public double calculateInterest() {
+        // TODO: return getBalance() * interestRate / 100.0
+        return getBalance() * interestRate / 100;
+    }
+
+    @Override
+    public void displayAccount() {
+        System.out.println("Savings Account");
+        System.out.println("Account Number : " + getAccountNumber());
+        System.out.println("Customer : " + getCustomer().getName());
+        System.out.printf("Balance : %.0f%n", getBalance());
+        System.out.printf("Interest Rate : %.0f%%%n", interestRate);
+        System.out.printf("Interest : %.0f%n", calculateInterest());
+    }
+
+    @Override
+    public void printDetails() {
+        displayAccount();
     }
 
     @Override
     public String getAccountType() {
         return "Savings";
     }
-
-    @Override
-    public double calculateInterest(){
-        return super.getBalance() * (interestRate / 100.0);
-    }
-
-    @Override
-    public void displayAccount(){
-        System.out.printf("%s Account Number: %s. %s. Balance %.2f. Rate %.2f. Interest %.2f\n",
-                getAccountType(),
-                super.getAccountNumber(),
-                super.getCustomer().getName(),
-                super.getBalance(),
-                interestRate,
-                calculateInterest());
-    }
-
-    @Override
-    public void printDetails(){
-        displayAccount();
-    }
-
-
-
-
 }
