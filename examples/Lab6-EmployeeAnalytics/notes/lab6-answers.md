@@ -31,6 +31,19 @@ Lambda Expressions are more readable because they are able to capture the meanin
 Method references can be used in streams operations to mask more complex logic.
 
 ### Which stream operation is terminal? Give three examples from your lab.
+The `.collect()` operation is terminal. I used it to find the employee with the second highest salary. 
+`double secondHighestSalary = employees.stream().map(e -> e.getSalary()).sorted().collect(Collectors.toList()).get(1);`
 
-How do Streams improve enterprise Java applications?
-(Forward look) How would a future CRM use filter / map / groupingBy on customers the same way this lab uses them on employees—without claiming the CRM is implemented today?
+The `.count()` operation is also terminal.
+`long activeCount = employees.stream().filter(Employee::isActive).count();`
+
+The `.reduce()` operation is terminal. And was used to find the highest salary.
+`Optional<Double> highest = employees.stream().map(Employee::getSalary).reduce(Double::max);`
+
+
+### How do Streams improve enterprise Java applications?
+Streams improve legibility and runtime for simple and common iterable operations. They utilize the tools of the collections library, and perform better. 
+In enterprise code, they also tend to be very parallelizable, leading to performance boosts on cloud or other high performance computing systems. 
+
+### (Forward look) How would a future CRM use filter / map / groupingBy on customers the same way this lab uses them on employees—without claiming the CRM is implemented today?
+Filter / Map / GroupingBy could be used to generate important statistics to influence major business decisions and make informed decisions on customer relations.

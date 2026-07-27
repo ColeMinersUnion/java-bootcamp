@@ -1,8 +1,5 @@
 # Lab-4 Memory Management
 
-## Memory Leak Demo
-This demonstration has two modes: leak and fix. 
-
 ### Step 10 Results
 | Objects | Used Memory (approx) | Execution Time |
 | ------- | -------------------- | -------------- |
@@ -47,23 +44,35 @@ Max Memory   : 512 MB
 ## Reflection Questions
 
 ### Stack vs Heap?
+The stack holds local variables and function calls. The heap stores objects, 
 
 ### Why locals on the Stack?
+Local variables need to exist in the same context as their call stack. Keeping locals on the stack avoids variable name conflicts, and enforces scope.
 
 ### Why objects on the Heap?
+Objects are large, and would be difficult to pass on the stack. 
 
 ### When is an object GC-eligible?
 
+
 ### Does System.gc() guarantee collection?
+System.gc() does not guarantee collection. It usually will collect garbage, but the JVM may ignore the "request" to collect garbage. 
 
 ### What caused the leak?
+The leak was caused by objects that were created, but their references destroyed.
 
 ### How did clearing the list fix it?
+Clearing the list destroys the objects in the list, such that when the list is deleted, there won't be any dereferenced objects causing a leak.
 
 ### Why are WeakReferences useful?
+WeakReferences are useful as strong references will continue to point to an object after it has been deleted, where as a weak reference will acknowledge that an object has been deleted and return a null value.
 
 ### What happens when the heap is exhausted?
+When the heap is exhausted, the JVM will throw an out of memory error, as there is no more memory for new objects to be created in the heap.  
 
 ### Which laptop tool would you try first for rising heap—and why?
+I would tend to prefer `jstat`. It's reliable and terminal based, which are both things that I prefer. It also seems as though it would be easy to integrate into testing regiments. 
+I also have had the most, albeit still limited, experience with it.
 
 ### How could a CRM unbounded cache repeat this leak?
+An unbounded cache, would continue to try and add objects to the heap even though there is no more memory available. That cache may overwrite some objects, causing dangling references and a memory leak. 

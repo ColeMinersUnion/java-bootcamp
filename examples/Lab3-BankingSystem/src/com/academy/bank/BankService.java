@@ -98,15 +98,16 @@ public class BankService {
         double initialBalance = Double.parseDouble(scanner.nextLine());
         //I suppose you can start in debt?
 
-        System.out.println("Please enter the interest rate of the account: ");
+        System.out.print("Please enter the interest rate of the account: ");
         double interestRate = Double.parseDouble(scanner.nextLine());
 
         Account saving = new SavingsAccount(Integer.toString(nextAccountNumber), initialBalance, customer, interestRate);
         accounts[accountCount] = saving;
         accountCount++;
+        System.out.println("You have successfully created a savings account: " + nextAccountNumber);
+
         nextAccountNumber++;
 
-        System.out.println("You have successfully created a savings account.");
     }
 
     public void createCurrentAccount() {
@@ -139,9 +140,11 @@ public class BankService {
         Account current = new CurrentAccount(Integer.toString(nextAccountNumber), initialBalance, customer, transactionFee);
         accounts[accountCount] = current;
         accountCount++;
+
+        System.out.println("You have successfully created a current account: " + nextAccountNumber);
+
         nextAccountNumber++;
 
-        System.out.println("You have successfully created a current account.");
     }
 
     public void deposit() {
