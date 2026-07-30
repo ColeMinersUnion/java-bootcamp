@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CopilotDiffPersistence">
+    <option name="pendingDiffs">
+      <map>
+        <entry key="$PROJECT_DIR$/examples/HelloWorld/README.md">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/examples/HelloWorld/README.md" />
+              <option name="updatedContent" value="HelloWorld Java example&#10;&#10;Compile:&#10;&#10;```bash&#10;javac -d out src/HelloWorld.java&#10;```&#10;&#10;Run:&#10;&#10;```bash&#10;java -cp out HelloWorld&#10;```&#10;&#10;Notes:&#10;- The `-d out` option places compiled classes into the `out` directory.&#10;- Run the commands from the `examples/HelloWorld` directory.&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/examples/module-10-exercises/README.md">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/examples/module-10-exercises/README.md" />
+              <option name="updatedContent" value="Module 10 exercises — Customer class&#10;&#10;Location:&#10;  src/Customer.java&#10;&#10;Compile (from `examples/module-10-exercises`):&#10;&#10;```bash&#10;javac -d out src/Customer.java&#10;```&#10;&#10;Notes:&#10;- This is a simple top-level `Customer` POJO for exercises. If you'd prefer a package (e.g., `com.academy.module10`), I can add it and update the folder layout accordingly.&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/examples/module-10-exercises/src/CustomerDemo.java">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/examples/module-10-exercises/src/CustomerDemo.java" />
+              <option name="updatedContent" value="/**&#10; * Demo showcasing both traditional Customer class and CustomerRecord&#10; * with the example: CUS-1001, Amina Khan, ACTIVE&#10; */&#10;public class CustomerDemo {&#10;    public static void main(String[] args) {&#10;        // Using traditional Customer class&#10;        System.out.println(&quot;=== Traditional Customer Class ===&quot;);&#10;        Customer classCustomer = new Customer(&quot;CUS-1001&quot;, &quot;Amina Khan&quot;, &quot;ACTIVE&quot;);&#10;        System.out.println(&quot;Customer class instance: &quot; + classCustomer);&#10;&#10;        // Demonstrating mutability&#10;        classCustomer.setStatus(&quot;INACTIVE&quot;);&#10;        System.out.println(&quot;After status update: &quot; + classCustomer);&#10;        classCustomer.setStatus(&quot;ACTIVE&quot;);&#10;&#10;        System.out.println();&#10;&#10;        // Using Java 21 CustomerRecord&#10;        System.out.println(&quot;=== Java 21 CustomerRecord ===&quot;);&#10;        CustomerRecord recordCustomer = new CustomerRecord(&quot;CUS-1001&quot;, &quot;Amina Khan&quot;, &quot;ACTIVE&quot;);&#10;        System.out.println(&quot;CustomerRecord instance: &quot; + recordCustomer);&#10;        System.out.println(&quot;  id: &quot; + recordCustomer.id());&#10;        System.out.println(&quot;  fullName: &quot; + recordCustomer.fullName());&#10;        System.out.println(&quot;  status: &quot; + recordCustomer.status());&#10;&#10;        System.out.println();&#10;&#10;        // Demonstrating immutability&#10;        System.out.println(&quot;=== Immutability Demo ===&quot;);&#10;        CustomerRecord updatedRecord = new CustomerRecord(&quot;CUS-1001&quot;, &quot;Amina Khan&quot;, &quot;INACTIVE&quot;);&#10;        System.out.println(&quot;Original record: &quot; + recordCustomer);&#10;        System.out.println(&quot;New record: &quot; + updatedRecord);&#10;        System.out.println(&quot;Are they equal? &quot; + recordCustomer.equals(updatedRecord));&#10;&#10;        System.out.println();&#10;&#10;        // Demonstrating record equality and hashCode&#10;        System.out.println(&quot;=== Equality and HashCode Demo ===&quot;);&#10;        CustomerRecord record1 = new CustomerRecord(&quot;CUS-1001&quot;, &quot;Amina Khan&quot;, &quot;ACTIVE&quot;);&#10;        CustomerRecord record2 = new CustomerRecord(&quot;CUS-1001&quot;, &quot;Amina Khan&quot;, &quot;ACTIVE&quot;);&#10;        System.out.println(&quot;record1: &quot; + record1);&#10;        System.out.println(&quot;record2: &quot; + record2);&#10;        System.out.println(&quot;record1.equals(record2): &quot; + record1.equals(record2));&#10;        System.out.println(&quot;record1.hashCode() == record2.hashCode(): &quot; + (record1.hashCode() == record2.hashCode()));&#10;    }&#10;}&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/examples/module-10-exercises/src/CustomerRecord.java">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/examples/module-10-exercises/src/CustomerRecord.java" />
+              <option name="updatedContent" value="/**&#10; * Immutable Customer record for Northstar CRM (Java 21).&#10; * Demonstrates concise immutable representation using records.&#10; */&#10;public record CustomerRecord(String id, String fullName, String status) {&#10;    /**&#10;     * Compact constructor for validation.&#10;     */&#10;    public CustomerRecord {&#10;        if (id == null || id.isBlank()) {&#10;            throw new IllegalArgumentException(&quot;id cannot be null or blank&quot;);&#10;        }&#10;        if (fullName == null || fullName.isBlank()) {&#10;            throw new IllegalArgumentException(&quot;fullName cannot be null or blank&quot;);&#10;        }&#10;        if (status == null || status.isBlank()) {&#10;            throw new IllegalArgumentException(&quot;status cannot be null or blank&quot;);&#10;        }&#10;    }&#10;}&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
