@@ -1,0 +1,4 @@
+com/northstar/crm/service/CustomerServiceTest.class
+com/northstar/crm/dto/CustomerRequestDTOValidationTest.class
+com/northstar/crm/entity/CustomerTest.class
+com/northstar/crm/service/CustomerNotifierMockTest.class
