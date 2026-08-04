@@ -29,3 +29,9 @@
 [INFO] Total time:  0.375 s
 [INFO] Finished at: 2026-07-28T13:09:47-04:00
 [INFO] ------------------------------------------------------------------------
+
+
+Annotations:
+The build took some time, not too bad. I'm used to c++ compilations which are faster, but this seems reasonable.
+junit and spring were injected properly, and the dependency tree verifies that the project tree is set up correctly.
+The version is visible at the top along with the source of truth for this build.

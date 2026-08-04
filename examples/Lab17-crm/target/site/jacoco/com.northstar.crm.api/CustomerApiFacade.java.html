@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CustomerApiFacade.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Northstar Customer Service</a> &gt; <a href="index.source.html" class="el_package">com.northstar.crm.api</a> &gt; <span class="el_source">CustomerApiFacade.java</span></div><h1>CustomerApiFacade.java</h1><pre class="source lang-java linenums">package com.northstar.crm.api;
+
+import com.northstar.crm.dto.CustomerRequestDTO;
+import com.northstar.crm.dto.CustomerResponseDTO;
+import com.northstar.crm.mapper.CustomerMapper;
+import com.northstar.crm.service.CustomerService;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+public class CustomerApiFacade {
+    private final CustomerService service;
+<span class="fc" id="L15">    private final Validator validator =</span>
+<span class="fc" id="L16">            Validation.buildDefaultValidatorFactory().getValidator();</span>
+
+<span class="fc" id="L18">    public CustomerApiFacade(CustomerService service) {</span>
+<span class="fc" id="L19">        this.service = service;</span>
+<span class="fc" id="L20">    }</span>
+
+    public CustomerResponseDTO create(CustomerRequestDTO request, String correlationId) {
+<span class="fc" id="L23">        Set&lt;ConstraintViolation&lt;CustomerRequestDTO&gt;&gt; violations = validator.validate(request);</span>
+<span class="fc bfc" id="L24" title="All 2 branches covered.">        if (!violations.isEmpty()) {</span>
+<span class="fc" id="L25">            String detail = violations.stream()</span>
+<span class="fc" id="L26">                    .map(v -&gt; v.getPropertyPath() + &quot;: &quot; + v.getMessage())</span>
+<span class="fc" id="L27">                    .collect(Collectors.joining(&quot;; &quot;));</span>
+<span class="fc" id="L28">            throw new IllegalArgumentException(</span>
+                    &quot;validation failed [&quot; + correlationId + &quot;]: &quot; + detail);
+        }
+<span class="fc" id="L31">        var saved = service.addCustomer(CustomerMapper.toEntity(request));</span>
+<span class="fc" id="L32">        return CustomerMapper.toResponse(saved);</span>
+    }
+
+    public CustomerResponseDTO getById(String customerId, String correlationId) {
+<span class="fc" id="L36">        var entity = service.findById(customerId)  // or findById — match your API</span>
+<span class="fc" id="L37">                .orElseThrow(() -&gt; new IllegalArgumentException(</span>
+                        &quot;customer not found [&quot; + correlationId + &quot;]: &quot; + customerId));
+<span class="fc" id="L39">        return CustomerMapper.toResponse(entity);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

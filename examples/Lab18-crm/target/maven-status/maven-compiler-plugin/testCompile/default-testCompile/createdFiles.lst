@@ -1,0 +1,10 @@
+com/northstar/crm/dto/CustomerRequestDTOTests.class
+com/northstar/crm/entity/CustomerTests.class
+com/northstar/crm/service/CustomerServiceTests.class
+com/northstar/crm/service/CustomerServiceBddMockTest.class
+com/northstar/crm/dto/CustomerResponseDTOTests.class
+com/northstar/crm/service/CustomerServiceMockitoTest.class
+com/northstar/crm/service/CustomerValidatorParameterizedTest.class
+com/northstar/crm/exception/ErrorResponseTests.class
+com/northstar/crm/api/CustomerApiFacadeTests.class
+com/northstar/crm/exception/GlobalExceptionHandlerTest.class

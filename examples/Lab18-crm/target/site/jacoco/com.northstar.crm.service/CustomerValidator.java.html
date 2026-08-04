@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CustomerValidator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Northstar Customer Service</a> &gt; <a href="index.source.html" class="el_package">com.northstar.crm.service</a> &gt; <span class="el_source">CustomerValidator.java</span></div><h1>CustomerValidator.java</h1><pre class="source lang-java linenums">package com.northstar.crm.service;
+
+import com.northstar.crm.entity.Customer;
+import com.northstar.crm.entity.CustomerStatus;
+import com.northstar.crm.repository.CustomerRepository;
+import com.northstar.crm.exception.BusinessException;
+import java.util.EnumMap;
+import java.util.EnumSet;
+import java.util.Map;
+import java.util.Set;
+
+
+public class CustomerValidator {
+<span class="fc" id="L14">    private static final Map&lt;CustomerStatus, Set&lt;CustomerStatus&gt;&gt; ALLOWED =</span>
+            new EnumMap&lt;&gt;(CustomerStatus.class);
+
+    static {
+<span class="fc" id="L18">        ALLOWED.put(CustomerStatus.PROSPECT, EnumSet.of(CustomerStatus.ACTIVE, CustomerStatus.CLOSED));</span>
+<span class="fc" id="L19">        ALLOWED.put(CustomerStatus.ACTIVE, EnumSet.of(CustomerStatus.SUSPENDED, CustomerStatus.CLOSED));</span>
+<span class="fc" id="L20">        ALLOWED.put(CustomerStatus.SUSPENDED, EnumSet.of(CustomerStatus.ACTIVE, CustomerStatus.CLOSED));</span>
+<span class="fc" id="L21">        ALLOWED.put(CustomerStatus.CLOSED, EnumSet.noneOf(CustomerStatus.class));</span>
+<span class="fc" id="L22">    }</span>
+
+    private final CustomerRepository repository;
+
+<span class="fc" id="L26">    public CustomerValidator(CustomerRepository repository) {</span>
+<span class="fc" id="L27">        this.repository = repository;</span>
+<span class="fc" id="L28">    }</span>
+
+    public void validateNew(Customer customer) {
+<span class="pc bpc" id="L31" title="1 of 4 branches missed.">        if (customer.getCustomerId() == null || customer.getCustomerId().isBlank()) {</span>
+<span class="fc" id="L32">            throw new IllegalArgumentException(&quot;customerId is required&quot;);</span>
+        }
+<span class="fc bfc" id="L34" title="All 2 branches covered.">        if (repository.existsById(customer.getCustomerId())) {</span>
+<span class="fc" id="L35">            throw BusinessException.conflict(&quot;A customer already exists by that ID&quot;, &quot;Duplicate_ID&quot;);</span>
+        }
+<span class="fc bfc" id="L37" title="All 2 branches covered.">        if (repository.existsByEmail(customer.getEmail())) {</span>
+<span class="fc" id="L38">            throw BusinessException.conflict(&quot;A customer already exists with that email&quot;, &quot;Duplicate_Email&quot;);</span>
+        }
+<span class="fc" id="L40">    }</span>
+
+    public void validateTransition(CustomerStatus from, CustomerStatus to, String correlationId) {
+<span class="fc" id="L43">        Set&lt;CustomerStatus&gt; allowed = ALLOWED.getOrDefault(from, Set.of());</span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">        if (!allowed.contains(to)) {</span>
+<span class="fc" id="L45">            throw new BusinessException(&quot;Illegal Transition&quot;,</span>
+                                        &quot;[&quot; + correlationId + &quot;]: &quot; + from + &quot; to &quot; + to,
+                                        440,
+                                        correlationId); //arbitrary code
+        }
+<span class="fc" id="L50">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

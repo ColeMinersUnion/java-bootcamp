@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ErrorResponse.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Northstar Customer Service</a> &gt; <a href="index.source.html" class="el_package">com.northstar.crm.exception</a> &gt; <span class="el_source">ErrorResponse.java</span></div><h1>ErrorResponse.java</h1><pre class="source lang-java linenums">package com.northstar.crm.exception;
+
+import java.time.Instant;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+public class ErrorResponse {
+    private final Instant timestamp;
+    private final int status;
+    private final String error;
+    private final String message;
+    private final String correlationId;
+    private final Map&lt;String, String&gt; errors;
+
+    public ErrorResponse(int status, String error, String message, String correlationId,
+<span class="fc" id="L18">                         Map&lt;String, String&gt; errors) {</span>
+<span class="fc" id="L19">        this.timestamp = Instant.now();</span>
+<span class="fc" id="L20">        this.status = status;</span>
+<span class="fc" id="L21">        this.error = error;</span>
+<span class="fc" id="L22">        this.message = message;</span>
+<span class="fc" id="L23">        this.correlationId = correlationId;</span>
+<span class="fc bfc" id="L24" title="All 2 branches covered.">        this.errors = errors == null</span>
+<span class="fc" id="L25">                ? Map.of()</span>
+<span class="fc" id="L26">                : Collections.unmodifiableMap(new LinkedHashMap&lt;&gt;(errors));</span>
+<span class="fc" id="L27">    }</span>
+
+<span class="fc" id="L29">    public Instant getTimestamp() { return timestamp; }</span>
+<span class="fc" id="L30">    public int getStatus() { return status; }</span>
+<span class="fc" id="L31">    public String getError() { return error; }</span>
+<span class="fc" id="L32">    public String getMessage() { return message; }</span>
+<span class="fc" id="L33">    public String getCorrelationId() { return correlationId; }</span>
+<span class="fc" id="L34">    public Map&lt;String, String&gt; getErrors() { return errors; }</span>
+
+    public String toJson() {
+<span class="fc" id="L37">        String errFields = errors.entrySet().stream()</span>
+<span class="fc" id="L38">                .map(e -&gt; &quot;\&quot;&quot; + e.getKey() + &quot;\&quot;:\&quot;&quot; + escape(e.getValue()) + &quot;\&quot;&quot;)</span>
+<span class="fc" id="L39">                .collect(Collectors.joining(&quot;,&quot;));</span>
+<span class="fc" id="L40">        return &quot;{&quot;</span>
+                + &quot;\&quot;timestamp\&quot;:\&quot;&quot; + timestamp + &quot;\&quot;,&quot;
+                + &quot;\&quot;status\&quot;:&quot; + status + &quot;,&quot;
+<span class="fc" id="L43">                + &quot;\&quot;error\&quot;:\&quot;&quot; + escape(error) + &quot;\&quot;,&quot;</span>
+<span class="fc" id="L44">                + &quot;\&quot;message\&quot;:\&quot;&quot; + escape(message) + &quot;\&quot;,&quot;</span>
+<span class="fc" id="L45">                + &quot;\&quot;correlationId\&quot;:\&quot;&quot; + escape(correlationId) + &quot;\&quot;,&quot;</span>
+                + &quot;\&quot;errors\&quot;:{&quot; + errFields + &quot;}&quot;
+                + &quot;}&quot;;
+    }
+
+    private static String escape(String s) {
+<span class="fc bfc" id="L51" title="All 2 branches covered.">        return s == null ? &quot;&quot; : s.replace(&quot;\\&quot;, &quot;\\\\&quot;).replace(&quot;\&quot;&quot;, &quot;\\\&quot;&quot;);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

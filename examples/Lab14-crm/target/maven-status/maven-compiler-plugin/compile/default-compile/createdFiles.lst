@@ -7,5 +7,4 @@ com/northstar/crm/entity/CustomerStatus.class
 com/northstar/crm/service/CustomerNotifier.class
 com/northstar/crm/dto/CustomerRequestDTO.class
 com/northstar/crm/entity/Customer.class
-com/northstar/crm/config/AppConfig.class
 com/northstar/crm/service/CustomerService.class

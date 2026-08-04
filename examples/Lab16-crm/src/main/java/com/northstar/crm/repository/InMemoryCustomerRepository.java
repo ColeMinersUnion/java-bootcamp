@@ -1,0 +1,42 @@
+package com.northstar.crm.repository;
+
+import com.northstar.crm.entity.Customer;
+import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+/** Map must stay private — anti-leak rule for Lab 15. */
+public class InMemoryCustomerRepository implements CustomerRepository {
+    private final Map<String, Customer> store = new HashMap<>();
+
+    @Override
+    public Customer save(Customer customer) {
+        store.put(customer.getCustomerId(), customer);
+        return store.get(customer.getCustomerId());
+    }
+
+    @Override
+    public Optional<Customer> findById(String customerId) {
+        // TODO: Optional.ofNullable(store.get(customerId))
+        return Optional.ofNullable(store.get(customerId));
+    }
+
+    @Override
+    public boolean existsById(String customerId) {
+        return (store.containsKey(customerId));
+    }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return store.values().stream()
+                .anyMatch(c -> c.getEmail().equalsIgnoreCase(email));
+    }
+
+    @Override
+    public List<Customer> findAll() {
+        // TODO: return new ArrayList<>(store.values()) — never return the Map itself
+        return new ArrayList<>(store.values());
+    }
+}

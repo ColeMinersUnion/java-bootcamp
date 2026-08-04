@@ -1,6 +1,5 @@
 /Users/chansen/java-bootcamp/examples/Lab14-crm/src/main/java/com/northstar/crm/Main.java
 /Users/chansen/java-bootcamp/examples/Lab14-crm/src/main/java/com/northstar/crm/api/CustomerApiFacade.java
-/Users/chansen/java-bootcamp/examples/Lab14-crm/src/main/java/com/northstar/crm/config/AppConfig.java
 /Users/chansen/java-bootcamp/examples/Lab14-crm/src/main/java/com/northstar/crm/dto/CustomerRequestDTO.java
 /Users/chansen/java-bootcamp/examples/Lab14-crm/src/main/java/com/northstar/crm/dto/CustomerResponseDTO.java
 /Users/chansen/java-bootcamp/examples/Lab14-crm/src/main/java/com/northstar/crm/entity/Customer.java

@@ -1,0 +1,10 @@
+/Users/chansen/java-bootcamp/examples/Lab18-crm/src/test/java/com/northstar/crm/api/CustomerApiFacadeTests.java
+/Users/chansen/java-bootcamp/examples/Lab18-crm/src/test/java/com/northstar/crm/dto/CustomerRequestDTOTests.java
+/Users/chansen/java-bootcamp/examples/Lab18-crm/src/test/java/com/northstar/crm/dto/CustomerResponseDTOTests.java
+/Users/chansen/java-bootcamp/examples/Lab18-crm/src/test/java/com/northstar/crm/entity/CustomerTests.java
+/Users/chansen/java-bootcamp/examples/Lab18-crm/src/test/java/com/northstar/crm/exception/ErrorResponseTests.java
+/Users/chansen/java-bootcamp/examples/Lab18-crm/src/test/java/com/northstar/crm/exception/GlobalExceptionHandlerTest.java
+/Users/chansen/java-bootcamp/examples/Lab18-crm/src/test/java/com/northstar/crm/service/CustomerServiceBddMockTest.java
+/Users/chansen/java-bootcamp/examples/Lab18-crm/src/test/java/com/northstar/crm/service/CustomerServiceMockitoTest.java
+/Users/chansen/java-bootcamp/examples/Lab18-crm/src/test/java/com/northstar/crm/service/CustomerServiceTests.java
+/Users/chansen/java-bootcamp/examples/Lab18-crm/src/test/java/com/northstar/crm/service/CustomerValidatorParameterizedTest.java

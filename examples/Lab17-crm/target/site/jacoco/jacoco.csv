@@ -1,0 +1,14 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+Northstar Customer Service,com.northstar.crm.service,DefaultCustomerService,5,58,0,0,1,12,1,5,1,5
+Northstar Customer Service,com.northstar.crm.service,CustomerValidator,0,96,1,9,0,20,1,8,0,4
+Northstar Customer Service,com.northstar.crm.exception,ErrorResponse,0,96,0,4,0,24,0,12,0,10
+Northstar Customer Service,com.northstar.crm.exception,BusinessException,0,39,0,0,0,10,0,6,0,6
+Northstar Customer Service,com.northstar.crm.exception,GlobalExceptionHandler,41,16,2,0,7,7,3,2,2,2
+Northstar Customer Service,com.northstar.crm.entity,Customer,0,104,0,4,0,26,0,19,0,17
+Northstar Customer Service,com.northstar.crm.entity,CustomerStatus,0,27,0,0,0,5,0,1,0,1
+Northstar Customer Service,com.northstar.crm.mapper,CustomerMapper,28,0,0,0,11,0,2,0,2,0
+Northstar Customer Service,com.northstar.crm.dto,CustomerResponseDTO,0,45,0,0,0,15,0,8,0,8
+Northstar Customer Service,com.northstar.crm.dto,CustomerRequestDTO,0,58,0,0,0,20,0,10,0,10
+Northstar Customer Service,com.northstar.crm,Main,69,0,0,0,12,0,2,0,2,0
+Northstar Customer Service,com.northstar.crm.api,CustomerApiFacade,0,72,0,2,0,16,0,6,0,5
+Northstar Customer Service,com.northstar.crm.repository,InMemoryCustomerRepository,0,54,0,0,0,9,0,7,0,7

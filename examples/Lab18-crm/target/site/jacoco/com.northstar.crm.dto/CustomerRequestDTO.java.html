@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CustomerRequestDTO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Northstar Customer Service</a> &gt; <a href="index.source.html" class="el_package">com.northstar.crm.dto</a> &gt; <span class="el_source">CustomerRequestDTO.java</span></div><h1>CustomerRequestDTO.java</h1><pre class="source lang-java linenums">package com.northstar.crm.dto;
+
+import jakarta.validation.constraints.*;
+
+
+public class CustomerRequestDTO {
+
+    @NotBlank(message = &quot;customerId is required&quot;)
+    @Size(max = 32, message = &quot;customerId must be at most 32 characters&quot;)
+    private String customerID;
+
+    @NotBlank(message = &quot;fullName is required&quot;)
+    @Size(min = 2, max = 100, message = &quot;fullName must be between 2 and 100 characters&quot;)
+    private String fullName;
+
+    @NotBlank(message = &quot;email is required&quot;)
+    @Email(message = &quot;email must be a valid address&quot;)
+    @Size(max = 254, message = &quot;email must be at most 254 characters&quot;)
+    private String email;
+
+    @NotBlank(message = &quot;status is required&quot;)
+    @Size(min = 1, max = 32, message = &quot;status must be between 1 and 32 characters&quot;)
+    private String status;
+
+    // constructors
+<span class="fc" id="L26">    public CustomerRequestDTO(String customerID, String fullName, String email, String status){</span>
+<span class="fc" id="L27">        this.customerID = customerID;</span>
+<span class="fc" id="L28">        this.fullName = fullName;</span>
+<span class="fc" id="L29">        this.email = email;</span>
+<span class="fc" id="L30">        this.status = status;</span>
+<span class="fc" id="L31">    }</span>
+
+<span class="fc" id="L33">    public CustomerRequestDTO(){</span>
+<span class="fc" id="L34">        customerID = null;</span>
+<span class="fc" id="L35">        fullName = null;</span>
+<span class="fc" id="L36">        email = null;</span>
+<span class="fc" id="L37">        status = null;</span>
+<span class="fc" id="L38">    }</span>
+
+    //getters
+<span class="fc" id="L41">    public String getCustomerID(){ return customerID; }</span>
+<span class="fc" id="L42">    public String getFullName(){ return fullName; }</span>
+<span class="fc" id="L43">    public String getEmail(){ return email; }</span>
+<span class="fc" id="L44">    public String getStatus(){ return status; }</span>
+
+    //setters
+<span class="fc" id="L47">    public void setCustomerID(String customerID){ this.customerID = customerID; }</span>
+<span class="fc" id="L48">    public void setFullName(String fullName){ this.fullName = fullName; }</span>
+<span class="fc" id="L49">    public void setEmail(String email){ this.email = email; }</span>
+<span class="fc" id="L50">    public void setStatus(String status){ this.status = status; }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

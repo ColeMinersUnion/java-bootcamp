@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DefaultCustomerService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Northstar Customer Service</a> &gt; <a href="index.source.html" class="el_package">com.northstar.crm.service</a> &gt; <span class="el_source">DefaultCustomerService.java</span></div><h1>DefaultCustomerService.java</h1><pre class="source lang-java linenums">package com.northstar.crm.service;
+
+import com.northstar.crm.entity.Customer;
+import com.northstar.crm.entity.CustomerStatus;
+import com.northstar.crm.repository.CustomerRepository;
+import com.northstar.crm.exception.BusinessException;
+import java.util.List;
+import java.util.Optional;
+
+public class DefaultCustomerService implements CustomerService {
+    private final CustomerRepository repository;
+    private final CustomerValidator validator;
+
+<span class="fc" id="L14">    public DefaultCustomerService(CustomerRepository repository, CustomerValidator validator) {</span>
+<span class="fc" id="L15">        this.repository = repository;</span>
+<span class="fc" id="L16">        this.validator = validator;</span>
+<span class="fc" id="L17">    }</span>
+
+    @Override
+    public Customer addCustomer(Customer customer) {
+<span class="fc" id="L21">        validator.validateNew(customer);</span>
+<span class="fc" id="L22">        return repository.save(customer);</span>
+    }
+
+    @Override
+    public Optional&lt;Customer&gt; findById(String customerId) {
+<span class="nc" id="L27">        return repository.findById(customerId);</span>
+    }
+
+    @Override
+    public List&lt;Customer&gt; listAll() {
+<span class="fc" id="L32">        return List.copyOf(repository.findAll());</span>
+    }
+
+    @Override
+    public Customer changeStatus(String customerId, CustomerStatus newStatus, String correlationId) {
+<span class="fc" id="L37">        Customer existing = repository.findById(customerId)</span>
+<span class="fc" id="L38">                .orElseThrow(() -&gt; new BusinessException(</span>
+                        &quot;CUSTOMER_NOT_FOUND&quot;,
+                        &quot;customer not found [&quot; + correlationId + &quot;]: &quot; + customerId,
+                        404,
+                        correlationId));
+<span class="fc" id="L43">        validator.validateTransition(existing.getStatus(), newStatus, correlationId);</span>
+<span class="fc" id="L44">        existing.setStatus(newStatus);</span>
+        // touchUpdatedAt() if your entity supports it; else setUpdatedAt(now)
+<span class="fc" id="L46">        return repository.save(existing);</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

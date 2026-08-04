@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CustomerMapper.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Northstar Customer Service</a> &gt; <a href="index.source.html" class="el_package">com.northstar.crm.mapper</a> &gt; <span class="el_source">CustomerMapper.java</span></div><h1>CustomerMapper.java</h1><pre class="source lang-java linenums">package com.northstar.crm.mapper;
+
+import com.northstar.crm.dto.CustomerRequestDTO;
+import com.northstar.crm.dto.CustomerResponseDTO;
+import com.northstar.crm.entity.Customer;
+import com.northstar.crm.entity.CustomerStatus;
+
+public final class CustomerMapper {
+    private CustomerMapper() {}
+
+    public static Customer toEntity(CustomerRequestDTO req) {
+        // Adapt constructor args to YOUR Customer (phone, timestamps, etc.)
+<span class="nc" id="L13">        return new Customer(</span>
+<span class="nc" id="L14">                req.getCustomerID(),</span>
+<span class="nc" id="L15">                req.getFullName(),</span>
+<span class="nc" id="L16">                req.getEmail(),</span>
+                /* phone if required */ null,
+<span class="nc" id="L18">                CustomerStatus.valueOf(req.getStatus()),</span>
+<span class="nc" id="L19">                /* createdAt */ java.time.LocalDateTime.now()</span>
+        );
+    }
+
+    public static CustomerResponseDTO toResponse(Customer entity) {
+<span class="nc" id="L24">        return CustomerResponseDTO.of(</span>
+<span class="nc" id="L25">                entity.getCustomerId(),</span>
+<span class="nc" id="L26">                entity.getFullName(),</span>
+<span class="nc" id="L27">                entity.getEmail(),</span>
+<span class="nc" id="L28">                entity.getStatus().name(),</span>
+                null,
+                null
+        );
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

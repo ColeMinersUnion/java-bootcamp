@@ -1,30 +1,18 @@
+# Security Review
 
-# Security and Production Review
+1. Which inputs are untrusted? (Downloaded Maven artifacts; later API inputs)
+> Any external input, including downloaded Maven artifacts and future API inputs, should be treated as untrusted.
+2. Where are authn/authz/validation enforced later? (App layers + CI/repo managers)
+> Authentication, authorization and validation should be enforced at the application layers, and during contiuous integration and repository management processes.
+3. Which values are sensitive, and where stored? (Never in POM; use secrets stores)
+> Sensitive values, such as API keys and passwords should never exist in the POM. They should instead be stored in a secure secret store, e.g. an environment variable manager.
 
-### Which inputs are untrusted? (Downloaded Maven artifacts; later API inputs)
-
-
-
-### Where are authn/authz/validation enforced later? (App layers + CI/repo managers)
-Which values are sensitive, and where stored? (Never in POM; use secrets stores)
-What can be retried safely? (mvn verify, snapshot install)
-What happens after a partial failure? (Failed test stops verify; no bad promotion in CI)
-What would an operator monitor? (CI duration, failed verify jobs)
-Which local default is unacceptable in production? (dev profile active by default with real secrets—never do that)
-How are contracts versioned? (Artifact version + later OpenAPI/WSDL)
 
 # Reflection Questions
-
-
-### Which design decision most affected build correctness?
-
-
-Which failure was hardest to diagnose?
-What evidence proves the lifecycle walk was real (not only package once)?
-What breaks first at ten times the dependency count?
-Which concern should move to shared infrastructure (artifact repository, CI cache)?
-What must change before real customer data is used?
-How does this lab connect to Lab 8 structure and Lab 10+ code?
-What metric, log field, or CI signal matters most when verify fails?
-Why is test scope on JUnit more than a style preference?
-(Forward look) When Spring Boot arrives, what stays stable in this POM vs what changes first?
+1. Which design decision most affected build correctness?
+There wasn't a notable design decision that most clearly impacted build correctness. I would argue towards the decision of the scope for each dependency.
+This decision limits which dependencies are brought to production, which are used for testing and so on.
+2. What evidence proves the lifecycle walk was real (not only package once)?
+The lifecycle walk was real, as evidenced by walking through the maven lifecycle. Seeing each step from validation to installation showed me that the lifecycle walk was real.
+3. Which failure was hardest to diagnose?
+The hardest failure to diagnose was spotting the JUnit scope error. Forgetting the scope tag seems relatively easy, and the dependency tree is not my first thing to check before production.
