@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: lab32-crm
+
+account:
+  api:
+    base-url: ${ACCOUNT_API_BASE_URL:http://localhost:8089}
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      accountProfile:
+#        slidingWindowSize: 6
+#        minimumNumberOfCalls: 4
+#        failureRateThreshold: 50
+#        waitDurationInOpenState: 2s
+        sliding-window-type: COUNT_BASED
+        sliding-window-size: 10
+        minimum-number-of-calls: 5
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 10s
+        permitted-number-of-calls-in-half-open-state: 2
+  retry:
+    instances:
+      accountProfile:
+        maxAttempts: 3
+        waitDuration: 200ms
+        enable-exponential-backoff: true
+        exponential-backoff-multiplier: 2
+        retry-exceptions:
+          - java.io.IOException
+          - com.northstar.crm.account.TemporaryAccountException
+  timelimiter:
+    instances:
+      accountProfile:
+        timeout-duration: 1500ms
+        cancel-running-future: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics,circuitbreakers,circuitbreakerevents
